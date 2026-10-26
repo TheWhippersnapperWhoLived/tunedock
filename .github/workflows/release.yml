@@ -83,7 +83,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $builds = gh release list --limit 100 --json tagName,createdAt | ConvertFrom-Json |
+          $builds = gh release list --limit 100 --include-drafts --json tagName,createdAt | ConvertFrom-Json |
             Where-Object { $_.tagName -like "build-*" } | Sort-Object createdAt -Descending
           foreach ($r in ($builds | Select-Object -Skip 2)) {
             gh release delete $r.tagName --cleanup-tag --yes
