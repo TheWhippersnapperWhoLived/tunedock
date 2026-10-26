@@ -1,0 +1,20 @@
+singleton Theme 1.0 Theme.qml
+singleton Icons 1.0 Icons.qml
+Spring 1.0 Spring.qml
+Icon 1.0 Icon.qml
+Txt 1.0 Txt.qml
+XButton 1.0 XButton.qml
+SegGroup 1.0 SegGroup.qml
+XSwitch 1.0 XSwitch.qml
+XSlider 1.0 XSlider.qml
+XField 1.0 XField.qml
+WavyProgress 1.0 WavyProgress.qml
+Blob 1.0 Blob.qml
+Chip 1.0 Chip.qml
+ListGroup 1.0 ListGroup.qml
+SettingRow 1.0 SettingRow.qml
+PageBase 1.0 PageBase.qml
+NavRail 1.0 NavRail.qml
+Toast 1.0 Toast.qml
+Pane 1.0 Pane.qml
+Section 1.0 Section.qml

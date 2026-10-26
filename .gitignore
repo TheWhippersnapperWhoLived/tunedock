@@ -1,0 +1,14 @@
+# made by setup.bat
+.venv/
+app/
+_build/
+*.spec
+setup.log
+Tunedock.lnk
+
+# Python
+__pycache__/
+*.py[cod]
+
+# leftovers from older setups
+tunedock.pyw

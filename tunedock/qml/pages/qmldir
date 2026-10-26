@@ -1,0 +1,11 @@
+AddPage 1.0 AddPage.qml
+IdleView 1.0 IdleView.qml
+PickView 1.0 PickView.qml
+RunView 1.0 RunView.qml
+DoneView 1.0 DoneView.qml
+LibraryPage 1.0 LibraryPage.qml
+ConvertPage 1.0 ConvertPage.qml
+NamesPage 1.0 NamesPage.qml
+StylePage 1.0 StylePage.qml
+Onboarding 1.0 Onboarding.qml
+SystemPage 1.0 SystemPage.qml
