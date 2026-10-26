@@ -83,10 +83,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $builds = gh release list --limit 100 --include-drafts --json tagName,createdAt | ConvertFrom-Json |
+          $builds = gh release list --limit 100 --json tagName,createdAt | ConvertFrom-Json |
             Where-Object { $_.tagName -like "build-*" } | Sort-Object createdAt -Descending
           foreach ($r in ($builds | Select-Object -Skip 2)) {
             gh release delete $r.tagName --cleanup-tag --yes
             # --cleanup-tag can leave the tag behind, so remove it explicitly too
             gh api -X DELETE "repos/${{ github.repository }}/git/refs/tags/$($r.tagName)" 2>$null | Out-Null
           }
+          # a draft left behind by an interrupted run never shows in the list above
+          gh api "repos/${{ github.repository }}/releases?per_page=100" | ConvertFrom-Json |
+            Where-Object { $_.draft -eq $true } |
+            ForEach-Object { gh api -X DELETE "repos/${{ github.repository }}/releases/$($_.id)" | Out-Null }
