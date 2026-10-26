@@ -6,6 +6,13 @@ on:
   push:
     branches: [main]
     tags: ["v*"]
+    # docs and licence edits don't need a 70 MB build (path filters never apply to tag pushes)
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "LICENSE"
+      - ".gitignore"
+      - ".gitattributes"
   workflow_dispatch:
 
 permissions:
