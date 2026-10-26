@@ -87,4 +87,6 @@ jobs:
             Where-Object { $_.tagName -like "build-*" } | Sort-Object createdAt -Descending
           foreach ($r in ($builds | Select-Object -Skip 2)) {
             gh release delete $r.tagName --cleanup-tag --yes
+            # --cleanup-tag can leave the tag behind, so remove it explicitly too
+            gh api -X DELETE "repos/${{ github.repository }}/git/refs/tags/$($r.tagName)" 2>$null | Out-Null
           }

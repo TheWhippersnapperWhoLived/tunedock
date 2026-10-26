@@ -8,7 +8,7 @@ names it the way you choose, and puts it in the right folder of your library.
 > MIT licensed (see `LICENSE` and `THIRD_PARTY_NOTICES.md`).
 
 ## Demo
-![Use](./assets/input.gif)
+![Tunedock adding music from the Explorer right-click menu](./docs/demo.gif)
 
 ## Disclaimer
 Tunedock is provided **as is, with no warranty** (see `LICENSE`). It converts, renames, moves and, if you turn those options on,
@@ -80,7 +80,7 @@ their file name with the track number stripped. Album folders can be renamed too
 
 ## Fast starts (optional)
 Off by default. *System → Stay ready in the background* keeps one quiet copy running (notification-area icon: Open / Quit) and
-*Start with Windows* launches it at sign-in. With it, a right-click hands the request to that copy in about 70 ms and the window
+*Start with Windows* launches it at sign-in. With it, a right-click hands the request to that copy in about a tenth of a second and the window
 appears at once and takes focus. Without it, each right-click starts Tunedock fresh, which takes a few seconds.
 `Tunedock.exe --quit` closes a running copy.
 
