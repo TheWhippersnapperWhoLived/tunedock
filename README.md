@@ -1,5 +1,8 @@
 # Tunedock
 
+## Demo
+![Use](./assets/input.gif)
+
 Right-click music in Explorer → **Add to music library**. Tunedock converts it (Opus by default), keeps tags and cover art,
 names it the way you choose, and puts it in the right folder of your library.
 
