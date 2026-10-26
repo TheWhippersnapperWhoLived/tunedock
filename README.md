@@ -7,6 +7,17 @@ names it the way you choose, and puts it in the right folder of your library.
 > requests are turned off and nothing is promised. Fork it if you want to take it further. MIT licensed (see `LICENSE`
 > and `THIRD_PARTY_NOTICES.md`).
 
+## Disclaimer
+Tunedock is provided **as is, with no warranty** (see `LICENSE`). It converts, renames, moves and, if you turn those options on,
+deletes or recycles your music files, and it adds entries to your user registry (right-click menu, optional start with Windows).
+**Back up your library before using it on music you can't replace.** It has had limited real-world testing, mostly on one
+Windows 11 PC. The release exe is unsigned, so Windows or your antivirus may warn about it. Use it at your own risk.
+
+## AI usage
+This project was written almost entirely by AI (Claude, through the OpenCode coding agent), directed and tested by me.
+I haven't reviewed every line by hand. The automated tests in `tests/` and my own use are what back it up, so treat it as
+you would any untrusted third-party code: read it before you trust it with anything important.
+
 ## Download (easiest)
 Get the newest zip from the [**Releases**](../../releases/latest) page (a new one is built for every commit), unzip it
 anywhere, and run `Tunedock\Tunedock.exe`. No Python needed. The first launch asks for your music folder and offers to add
