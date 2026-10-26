@@ -1,8 +1,11 @@
 name: Release
 
+# Every push to main: a pre-release "build-N" (only the newest 2 are kept).
+# Pushing a tag like v0.1.0: a stable release that is kept for good.
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -22,6 +25,16 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Read the version
+        id: ver
+        shell: pwsh
+        run: |
+          $v = (Select-String -Path tunedock/__init__.py -Pattern '__version__ = "(.+)"').Matches[0].Groups[1].Value
+          "version=$v" >> $env:GITHUB_OUTPUT
+          if ("${{ github.ref_type }}" -eq "tag" -and "${{ github.ref_name }}" -ne "v$v") {
+            throw "Tag ${{ github.ref_name }} does not match __version__ $v in tunedock/__init__.py"
+          }
+
       - name: Build Tunedock.exe
         run: python tools/setup_tunedock.py --build-only
 
@@ -34,7 +47,8 @@ jobs:
         shell: pwsh
         run: |
           $short = "${{ github.sha }}".Substring(0, 7)
-          $name = "Tunedock-$short-windows"
+          $stable = "${{ github.ref_type }}" -eq "tag"
+          $name = if ($stable) { "Tunedock-${{ steps.ver.outputs.version }}-windows" } else { "Tunedock-${{ steps.ver.outputs.version }}-$short-windows" }
           New-Item -ItemType Directory -Path "stage/Tunedock" | Out-Null
           Copy-Item "app/*" "stage/Tunedock" -Recurse
           Copy-Item LICENSE, THIRD_PARTY_NOTICES.md, README.md "stage/Tunedock"
@@ -47,12 +61,30 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $tag = "build-${{ github.run_number }}"
+          $zip = "${{ steps.pack.outputs.zip }}"
+          $short = "${{ steps.pack.outputs.short }}"
+          $version = "${{ steps.ver.outputs.version }}"
           $notes = @"
-          Built from commit ${{ steps.pack.outputs.short }}.
+          Built from commit $short.
 
           **Run it:** unzip anywhere, open ``Tunedock\Tunedock.exe``. No Python needed.
           Windows SmartScreen may warn because the exe is unsigned: *More info > Run anyway*.
           ffmpeg is downloaded by the app the first time you convert music.
           "@
-          gh release create $tag "${{ steps.pack.outputs.zip }}" --target "${{ github.sha }}" --title "Build ${{ github.run_number }} (${{ steps.pack.outputs.short }})" --notes $notes
+          if ("${{ github.ref_type }}" -eq "tag") {
+            gh release create "${{ github.ref_name }}" $zip --verify-tag --latest --title "Tunedock $version" --notes $notes
+          } else {
+            $tag = "build-${{ github.run_number }}"
+            gh release create $tag $zip --target "${{ github.sha }}" --prerelease --title "Build ${{ github.run_number }} ($version, $short)" --notes $notes
+          }
+
+      - name: Keep only the newest 2 builds
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $builds = gh release list --limit 100 --json tagName,createdAt | ConvertFrom-Json |
+            Where-Object { $_.tagName -like "build-*" } | Sort-Object createdAt -Descending
+          foreach ($r in ($builds | Select-Object -Skip 2)) {
+            gh release delete $r.tagName --cleanup-tag --yes
+          }

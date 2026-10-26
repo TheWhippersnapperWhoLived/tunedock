@@ -19,8 +19,8 @@ I haven't reviewed every line by hand. The automated tests in `tests/` and my ow
 you would any untrusted third-party code: read it before you trust it with anything important.
 
 ## Download (easiest)
-Get the newest zip from the [**Releases**](../../releases/latest) page (a new one is built for every commit), unzip it
-anywhere, and run `Tunedock\Tunedock.exe`. No Python needed. The first launch asks for your music folder and offers to add
+Get the latest stable zip from the [**Releases**](../../releases/latest) page, unzip it anywhere, and run
+`Tunedock\Tunedock.exe`. Every commit also gets a `build-N` pre-release with the newest changes (only the last 2 are kept). No Python needed. The first launch asks for your music folder and offers to add
 the right-click menu. The exe is unsigned, so SmartScreen may say *More info → Run anyway*. ffmpeg is downloaded by the app the
 first time you convert music.
 
