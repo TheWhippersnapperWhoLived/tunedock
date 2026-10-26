@@ -1,14 +1,14 @@
 # Tunedock
 
-## Demo
-![Use](./assets/input.gif)
-
 Right-click music in Explorer → **Add to music library**. Tunedock converts it (Opus by default), keeps tags and cover art,
 names it the way you choose, and puts it in the right folder of your library.
 
-> **Status: unmaintained.** This is a personal project shared as-is. I push updates now and then, but issues and pull
-> requests are turned off and nothing is promised. Fork it if you want to take it further. MIT licensed (see `LICENSE`
-> and `THIRD_PARTY_NOTICES.md`).
+> **Status: unmaintained.** This is a personal project, shared as-is. I make changes here and there,
+> but issues and pull requests are closed and nothing is promised. If you'd like to take it further, please fork it.
+> MIT licensed (see `LICENSE` and `THIRD_PARTY_NOTICES.md`).
+
+## Demo
+![Use](./assets/input.gif)
 
 ## Disclaimer
 Tunedock is provided **as is, with no warranty** (see `LICENSE`). It converts, renames, moves and, if you turn those options on,
