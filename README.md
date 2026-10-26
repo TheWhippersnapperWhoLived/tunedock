@@ -3,7 +3,17 @@
 Right-click music in Explorer → **Add to music library**. Tunedock converts it (Opus by default), keeps tags and cover art,
 names it the way you choose, and puts it in the right folder of your library.
 
-## Install (Windows 10/11)
+> **Status: unmaintained.** This is a personal project shared as-is. I push updates now and then, but issues and pull
+> requests are turned off and nothing is promised. Fork it if you want to take it further. MIT licensed (see `LICENSE`
+> and `THIRD_PARTY_NOTICES.md`).
+
+## Download (easiest)
+Get the newest zip from the [**Releases**](../../releases/latest) page (a new one is built for every commit), unzip it
+anywhere, and run `Tunedock\Tunedock.exe`. No Python needed. The first launch asks for your music folder and offers to add
+the right-click menu. The exe is unsigned, so SmartScreen may say *More info → Run anyway*. ffmpeg is downloaded by the app the
+first time you convert music.
+
+## Build it yourself (Windows 10/11)
 1. Extract the zip somewhere permanent (for example `C:\Tools\Tunedock`), then double-click **setup.bat**. That is the only file you run.
 2. It shows each step as it goes (`[3/7] ...`, with a live "still working" line and a clock):
    finds or installs Python → creates a private environment → installs the components → checks **ffmpeg** (and downloads it
@@ -12,7 +22,7 @@ names it the way you choose, and puts it in the right folder of your library.
 
 Run **setup.bat** again any time to update or repair: finished steps are skipped, and the exe is only rebuilt if the code changed.
 If the exe can't be built, it falls back to a shortcut that starts Tunedock with no console window. Details of every run: `setup.log`.
-The exe is unsigned (built on your PC), so SmartScreen may say *More info → Run anyway*. The program folder is about 400 MB.
+The exe is unsigned (built on your PC), so SmartScreen may say *More info → Run anyway*. The program folder is about 180 MB.
 
 ## Where things are
 **Add** (the everyday screen) · **Library** (your music folder, how a folder is chosen, what happens to files you add) ·

@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Build Tunedock.exe
+        run: python tools/setup_tunedock.py --build-only
+
+      - name: Show the build log if it failed
+        if: failure()
+        run: Get-Content setup.log -Tail 60
+
+      - name: Package the zip
+        id: pack
+        shell: pwsh
+        run: |
+          $short = "${{ github.sha }}".Substring(0, 7)
+          $name = "Tunedock-$short-windows"
+          New-Item -ItemType Directory -Path "stage/Tunedock" | Out-Null
+          Copy-Item "app/*" "stage/Tunedock" -Recurse
+          Copy-Item LICENSE, THIRD_PARTY_NOTICES.md, README.md "stage/Tunedock"
+          Compress-Archive -Path "stage/Tunedock" -DestinationPath "$name.zip"
+          "zip=$name.zip" >> $env:GITHUB_OUTPUT
+          "short=$short" >> $env:GITHUB_OUTPUT
+
+      - name: Publish the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "build-${{ github.run_number }}"
+          $notes = @"
+          Built from commit ${{ steps.pack.outputs.short }}.
+
+          **Run it:** unzip anywhere, open ``Tunedock\Tunedock.exe``. No Python needed.
+          Windows SmartScreen may warn because the exe is unsigned: *More info > Run anyway*.
+          ffmpeg is downloaded by the app the first time you convert music.
+          "@
+          gh release create $tag "${{ steps.pack.outputs.zip }}" --target "${{ github.sha }}" --title "Build ${{ github.run_number }} (${{ steps.pack.outputs.short }})" --notes $notes

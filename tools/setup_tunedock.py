@@ -334,10 +334,14 @@ def main():
     ap.add_argument("--skip-ffmpeg", action="store_true")
     ap.add_argument("--force-build", action="store_true")
     ap.add_argument("--no-launch", action="store_true")
+    ap.add_argument("--build-only", action="store_true", help="install packages and build app/Tunedock.exe, nothing else (used by the release workflow)")
     a = ap.parse_args()
     LOG.write_text("Tunedock setup %s\nPython %s\n%s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), sys.version.split()[0], sys.executable), encoding="utf-8")
     try:
         check_source()
+        if a.build_only:
+            step_packages(a.skip_packages)
+            return 0 if step_build(True) else 1
         step_packages(a.skip_packages)
         ff = step_ffmpeg(a.skip_ffmpeg)
         exe = step_build(a.force_build)
